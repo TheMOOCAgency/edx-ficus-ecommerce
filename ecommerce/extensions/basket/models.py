@@ -6,6 +6,8 @@ from oscar.core.loading import get_class
 OrderNumberGenerator = get_class('order.utils', 'OrderNumberGenerator')
 Selector = get_class('partner.strategy', 'Selector')
 
+#MODIF HERE
+import re
 
 class Basket(AbstractBasket):
     site = models.ForeignKey(
@@ -15,6 +17,17 @@ class Basket(AbstractBasket):
     @property
     def order_number(self):
         return OrderNumberGenerator().order_number(self)
+
+    ##all_lines(all_lines(
+    #MODIF HERE TO GET THE MICROSITE
+    def get_microsite_root_url(self):
+        lines = self.all_lines()
+        for line in lines:
+            product_class_name = line.product.get_product_class().name
+            if product_class_name == 'Seat' and "microsite_root_url:" in line.product.description and ":end_microsite_root_url" in line.product.description:
+                return re.search('microsite_root_url:(.*):end_microsite_root_url', line.product.description).group(1)
+            else:
+                return None
 
     @classmethod
     def create_basket(cls, site, user):

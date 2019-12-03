@@ -1,14 +1,24 @@
 from ecommerce.core.url_utils import get_lms_dashboard_url, get_lms_url
+from ecommerce.extensions.basket.models import Basket
+from ecommerce.extensions.catalogue.models import Product
+from ecommerce.courses.models import Course
 
+import re
+import logging
+log = logging.getLogger()
 
 def core(request):
-    site = request.site
-    site_configuration = site.siteconfiguration
+    all_lines = Basket.objects.get(id=request.basket.id).all_lines()
+    product = Product.objects.get(id=all_lines[0].product_id)
+    course = Course.objects.get(id=product.course_id)
+    parent_product = Product.objects.get(course=product.course_id, structure='parent')
+    microsite_url = re.search('microsite_root_url:(.*):end_microsite_root_url', parent_product.description).group(1)
 
     return {
         'lms_base_url': get_lms_url(),
         'lms_dashboard_url': get_lms_dashboard_url(),
-        'platform_name': site.name,
-        'support_url': site_configuration.payment_support_url,
-        'optimizely_snippet_src': site_configuration.optimizely_snippet_src,
+        'platform_name': request.site.name,
+        'support_url': request.site.siteconfiguration.payment_support_url,
+        'microsite_url': microsite_url,
+        'parent_product': parent_product
     }

@@ -8,6 +8,7 @@
     {% include 'partials/alert_messages.html' %}
 {% endif %}
 
+{% language request.COOKIES.tma_pref_lang %}
 <div id="content-inner">
     {% block basket_form_main %}
         <form action="." method="post">
@@ -19,19 +20,18 @@
                 <div class="basket-items">
                     {% if line_data.seat_type %}
                         <p class="certificate_type">
-                            {% trans "Earn a valuable certificate to showcase the skills you learn in" %}
+                            {% trans "Before you proceed to payment, please make sure that you activated your account by clicking on the link sent by email." %}
                         </p>
                     {% endif %}
                     <div class="row">
                         <div class="col-md-2 col-sm-12 product-image">
                             {{ form.id }}
-                            <img class="thumbnail" src="{{ line_data.image_url|default_if_none:'' }}"
+                            <img class="thumbnail" src="https://{{ microsite_url }}/media/microsite/{{ line_data.course_key.org }}/auto/images/logo.png"
                                  alt="{{ line_data.product_title|default_if_none:'' }}"/>
                         </div>
                         <div class="col-md-5 col-sm-12">
-                            <p class="product-title">{{ line_data.product_title }} {% if line_data.course_key %}- {{ line_data.course_key.org }}
-                                ({{ line_data.course_key.run }}) {% endif %}</p>
-                            <p class="product-description">{{ line_data.product_description }}</p>
+                            <p class="product-title">{{ parent_product.title }}</p>
+                            <!--<p class="product-description">{{ line_data.product_description }}</p>-->
                         </div>
                         {% if line_data.enrollment_code %}
                             <div class="col-md-1 col-xs-12">
@@ -159,7 +159,7 @@
                                 {% trans "Checkout" %}
                             {% elif processor.NAME == 'paypal' %}
                                 {# Translators: Do NOT translate the name PayPal. #}
-                                {% trans "Checkout with PayPal" %}
+                                {% trans "Checkout" %}
                             {% endif %}
                         </button>
                     {% endfor %}
@@ -175,14 +175,15 @@
             {% if display_verification_message %}
                 {% trans "<strong>Note:</strong> To earn a verified certificate, you must verify your identity with a <strong>webcam</strong> and a <strong>government-issued photo ID</strong>. " %}
             {% else %}
-                {% trans "<strong>Note:</strong> To complete your enrollment, select Checkout or Checkout with PayPal." %}
+                {% trans "<strong>Note:</strong> To complete your enrollment, select Checkout." %}
             {% endif %}
         </div>
     </div>
     <div class="row help">
         <div class="col-sm-12">
             <p><strong>{% trans "Have questions?" %}</strong></p>
-            <a href="{{ support_url }}">{% trans "Please read our FAQs to view common questions about our certificates." %}</a>
+            <a href="https://{{ microsite_url }}/honor" target="_blank">{% trans "Click here to access our Terms and Conditions." %}</a>
         </div>
     </div>
 </div>
+{% endlanguage %}

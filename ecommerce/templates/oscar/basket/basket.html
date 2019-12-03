@@ -59,7 +59,17 @@
                 {% endif %}
             </div>
         </div>
-    </main>
+    </div>
+<script src="/static/rest_framework/js/jquery-1.8.1-min.js"></script>
+<script>
+setTimeout(function(){
+    $("p.voucher").each(function(){
+        $(this).html($(this).html().replace("applied",""));
+    });
+    $("#messages .alertinner.wicon").html($("#messages .alertinner.wicon").html().replace("'PZX2YPTWSUXJORTC' is invalid.","'PZX2YPTWSUXJORTC' est valide pour Passion Céréales."));
+    $("#messages .alertinner.wicon").html($("#messages .alertinner.wicon").html().replace("'NU23UPGNHHHMXKMW' is invalid.","'NU23UPGNHHHMXKMW' est valide pour Passion Céréales."));
+}, 200);
+</script>
 {% endblock content %}
 
 {% block post_js %}
