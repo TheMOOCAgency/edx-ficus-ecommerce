@@ -4,6 +4,11 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.translation import ugettext_lazy as _
 
+#logging
+
+import logging
+log = logging.getLogger(__name__)
+
 
 def mode_for_seat(product):
     """
@@ -23,7 +28,20 @@ def mode_for_seat(product):
 def get_course_info_from_catalog(site, course_key):
     """ Get course information from catalog service and cache """
     api = site.siteconfiguration.course_catalog_api_client
+
+    #log.info("site : {}".format(site))
+    #log.info("siteconfiguration : {}".format(site.siteconfiguration.__dict__))
+    #log.info("course_catalog_api_client : {}".format(site.siteconfiguration.course_catalog_api_client.__dict__))
+    #log.info("course_catalog_api_client.serializer : {}".format(site.siteconfiguration.course_catalog_api_client.serializer.__dict__))
+    #log.info("site : {}".format(api.course_runs(course_key).__dict__))
     partner_short_code = site.siteconfiguration.partner.short_code
+
+    #log.info("site : {}".format(site.siteconfiguration.partner.__dict__))
+
+    log.info("site : {}".format(
+	api.course_runs(course_key)
+    ))
+
     cache_key = 'courses_api_detail_{}{}'.format(course_key, partner_short_code)
     cache_key = hashlib.md5(cache_key).hexdigest()
     course_run = cache.get(cache_key)

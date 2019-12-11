@@ -80,7 +80,11 @@ class Paypal(BasePaymentProcessor):
                 a payment from being created.
         """
         return_url = urljoin(get_ecommerce_url(), reverse('paypal_execute'))
+        print(request.__dict__)
         data = {
+            'application_context': {
+                'locale': 'en_US'
+            },
             'intent': 'sale',
             'redirect_urls': {
                 'return_url': return_url,
@@ -187,6 +191,8 @@ class Paypal(BasePaymentProcessor):
         parameters = {
             'payment_page_url': approval_url,
         }
+
+        logger.info(parameters)
 
         return parameters
 

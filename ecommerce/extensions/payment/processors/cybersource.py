@@ -163,6 +163,7 @@ class Cybersource(BasePaymentProcessor):
             ),
             'override_custom_cancel_page': self.cancel_page_url,
         }
+
         # Level 2/3 details
         if self.send_level_2_3_details:
             parameters['amex_data_taa1'] = site.name
