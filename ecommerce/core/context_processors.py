@@ -13,7 +13,9 @@ def core(request):
     product = Product.objects.get(id=all_lines[0].product_id)
     course = Course.objects.get(id=product.course_id)
     parent_product = Product.objects.get(course=product.course_id, structure='parent')
-    microsite_url = re.search('microsite_root_url:(.*):end_microsite_root_url', parent_product.description).group(1)
+    microsite_url = ''
+    if re.search('microsite_root_url:(.*):end_microsite_root_url', parent_product.description) is not None:
+        microsite_url = re.search('microsite_root_url:(.*):end_microsite_root_url', parent_product.description).group(1)
     language = request.LANGUAGE_CODE
     try:
         language = request.COOKIES['tma_pref_lang']

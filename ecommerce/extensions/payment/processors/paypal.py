@@ -80,11 +80,14 @@ class Paypal(BasePaymentProcessor):
                 a payment from being created.
         """
         return_url = urljoin(get_ecommerce_url(), reverse('paypal_execute'))
-        print(request.__dict__)
+
+        tma_pref_lang = request.LANGUAGE_CODE
+        try:
+            tma_pref_lang = request.COOKIES['tma_pref_lang']
+        except:
+            pass
+
         data = {
-            'application_context': {
-                'locale': 'en_US'
-            },
             'intent': 'sale',
             'redirect_urls': {
                 'return_url': return_url,
@@ -189,10 +192,8 @@ class Paypal(BasePaymentProcessor):
                 'Approval URL missing from PayPal payment response. See entry [{}] for details.'.format(entry.id))
 
         parameters = {
-            'payment_page_url': approval_url,
+            'payment_page_url': approval_url + u"&LocaleCode=en_US",
         }
-
-        logger.info(parameters)
 
         return parameters
 
