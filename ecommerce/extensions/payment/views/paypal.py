@@ -94,24 +94,12 @@ class PaypalPaymentExecutionView(EdxOrderPlacementMixin, View):
             site_configuration=basket.site.siteconfiguration
         )
 
-        ##MODIF HERE
-        ##Get the microsite that should be used
-        ##we look at each line of the basket, if for one of them, in the production description we find a URL then go for it !
-        microsite_root_url=str(basket.get_microsite_root_url())
-        if microsite_root_url:
-            microsite_payment_processor_error_url=str(self.payment_processor.error_url).replace('the-mooc-agency.com',microsite_root_url)
-            receipt_url=str(receipt_url).replace('the-mooc-agency.com',microsite_root_url)
-
         try:
             with transaction.atomic():
                 try:
                     self.handle_payment(paypal_response, basket)
                 except PaymentError:
-                    #MODIF HERE
-                    if microsite_payment_processor_error_url:
-                        return redirect(microsite_payment_processor_error_url)
-                    else:
-                        return redirect(self.payment_processor.error_url)
+                    return redirect(self.payment_processor.error_url)
         except:  # pylint: disable=bare-except
             logger.exception('Attempts to handle payment for basket [%d] failed.', basket.id)
             return redirect(receipt_url)

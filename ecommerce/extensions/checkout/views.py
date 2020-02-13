@@ -21,6 +21,7 @@ Applicator = get_class('offer.utils', 'Applicator')
 Basket = get_model('basket', 'Basket')
 Order = get_model('order', 'Order')
 
+logger = logging.getLogger(__name__)
 
 class FreeCheckoutView(EdxOrderPlacementMixin, RedirectView):
     """ View to handle free checkouts.
@@ -38,10 +39,6 @@ class FreeCheckoutView(EdxOrderPlacementMixin, RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         basket = Basket.get_basket(self.request.user, self.request.site)
-        ##MODIF HERE
-        ##Get the microsite that should be used
-        ##we look at each line of the basket, if for one of them, in the production description we find a URL then go for it !
-        microsite_root_url=str(basket.get_microsite_root_url())
         if not basket.is_empty:
             # Need to re-apply the voucher to the basket.
             Applicator().apply(basket, self.request.user, self.request)
@@ -63,7 +60,7 @@ class FreeCheckoutView(EdxOrderPlacementMixin, RedirectView):
             # If a user's basket is empty redirect the user to the basket summary
             # page which displays the appropriate message for empty baskets.
             url = reverse('basket:summary')
-        return url.replace('the-mooc-agency.com',microsite_root_url)
+        return url
 
 
 class CancelCheckoutView(TemplateView):
