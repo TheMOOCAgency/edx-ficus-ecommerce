@@ -18,6 +18,52 @@
 {% endblock %}
 
 {% block content %}
+<script type="text/javascript">
+    var analyticsData = {{ analytics_data|safe }};
+
+    dataLayer = [{
+    'env_work': 'prod',
+    'name_site': 'https://www.champagne-mooc.com/',
+    'env_language': '{{ cookie_lang }}',
+
+    'product': analyticsData.course.courseId,
+    'user_login': 'YES',
+    'user_email': '{{ user.email }}',
+
+    'orderID': 'THEMOOCA-100{{ basket.id }}',
+
+    'orderPaymentType': 'Paypal',
+
+    {% if basket.contains_a_voucher %}
+        {% for voucher in basket.vouchers.all %}
+            'order_promotion_code': '{{ voucher.code }}',
+        {% endfor %}
+    {% else %}
+        'order_promotion_code': 'None',
+    {% endif %}
+
+    {% for form, line_data in formset_lines_data %}
+        'order_basePrice': '{{ line_data.line.price_incl_tax }}',
+    {% endfor%}
+
+    'order_price': '{{ order_total.incl_tax }}',
+
+    }];
+    dataLayer[0].order_price = parseFloat(dataLayer[0].order_price.replace(',', '.'));
+    dataLayer[0].order_basePrice = parseFloat(dataLayer[0].order_basePrice.replace(',', '.'));
+    dataLayer[0].order_promotion_amount = dataLayer[0].order_basePrice - dataLayer[0].order_price;
+    dataLayer[0].page_name = document.title;
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TSV43V7');</script>
+<!-- End Google Tag Manager -->
+
+
     <div class="basket {% if enable_client_side_checkout %}basket-client-side{% endif %}">
         <div class="container">
             {# Use a partial template so that AJAX can be used to re-render basket #}
