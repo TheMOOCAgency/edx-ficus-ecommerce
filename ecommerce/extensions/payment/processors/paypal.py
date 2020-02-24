@@ -191,8 +191,12 @@ class Paypal(BasePaymentProcessor):
             raise GatewayError(
                 'Approval URL missing from PayPal payment response. See entry [{}] for details.'.format(entry.id))
 
+        addtional_param = u"&locale.x=fr_FR&langTgl=fr&LocaleCode=fr_FR"
+        if not "fr" in tma_pref_lang:
+            addtional_param = u"&locale.x=en_US&langTgl=en&LocaleCode=en_US"
+        logger.error(str(approval_url + addtional_param))
         parameters = {
-            'payment_page_url': approval_url + u"&LocaleCode=en_US",
+            'payment_page_url': approval_url + addtional_param,
         }
 
         return parameters
