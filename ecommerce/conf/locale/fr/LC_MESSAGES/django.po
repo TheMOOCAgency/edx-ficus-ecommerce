@@ -3914,3 +3914,7 @@ msgid "<strong>Note:</strong> To complete your enrollment, select Checkout."
 msgstr ""
 "<strong>Note:</strong> Pour finaliser votre inscription, sélectionnez \"Payer"
 "\""
+
+#: templates/oscar/basket/partials/basket_content.html
+msgid "Enter a coupon code"
+msgstr "Appliquer un code promo"

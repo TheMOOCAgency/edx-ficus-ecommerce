@@ -63,6 +63,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TSV43V7');</script>
 <!-- End Google Tag Manager -->
 
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+ if(dataLayer[0].env_language == "fr"){
+  //$("#messages div.alertinner.wicon").html($("#messages div.alertinner.wicon").html().replace("Coupon code","Le code promo").replace("is invalid","est invalide"));
+  $("div.discount>div.benefit").first().html($("div.discount>div.benefit").first().html().replace("off",""));
+ }
+  $("#messages").hide();
+});
+</script>
 
     <div class="basket {% if enable_client_side_checkout %}basket-client-side{% endif %}">
         <div class="container">
@@ -94,4 +103,5 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             {% endif %}
         </div>
     </div>
+
 {% endblock content %}

@@ -93,7 +93,7 @@
                             {% for voucher in basket.vouchers.all %}
                                 <p class="voucher">
                                     {% blocktrans with voucher_code=voucher.code %}
-                                        Coupon code {{ voucher_code }} applied
+                                        Promo: {{ voucher_code }}
                                     {% endblocktrans %}
                                 <form action="{% url 'basket:vouchers-remove' pk=voucher.id %}" method="POST">
                                     {% csrf_token %}
