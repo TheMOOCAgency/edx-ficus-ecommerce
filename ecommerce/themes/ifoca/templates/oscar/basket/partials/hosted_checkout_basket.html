@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-md-2 col-sm-12 product-image">
                             {{ form.id }}
-                            <img class="thumbnail" src="https://champagne-mooc.the-mooc-agency.com/media/microsite/{{ line_data.course_key.org }}/auto/images/logo.png"
+                            <img class="thumbnail" src="https://ifoca.the-mooc-agency.com/media/microsite/ifoca/auto/images/logo.png"
                                  alt="{{ line_data.product_title|default_if_none:'' }}"/>
                         </div>
                         <div class="col-md-5 col-sm-12">
@@ -148,6 +148,43 @@
                         {% trans "Place Order" %}
                     </a>
                 {% else %}
+<style>
+#manual-payment{
+    border-color: rgba(46,59,140,1) ;
+    padding: 1.25rem 1.875rem;
+    background: rgba(46,59,140,1) ;
+    color: #fcfcfc;
+    font-size: 18px;
+}
+#manual-payment:hover{
+    background: rgba(46,59,140,0.7) ;
+    border-color: rgba(46,59,140,0.7) ;
+}
+</style>
+<script>
+function popin(){
+Swal.fire({
+  title: 'Inscription manuelle\nManual enrollment',
+  html: '<br/>Complétez avec votre service RH le formulaire pdf disponible <a href=\'https://ifoca.the-mooc-agency.com/media/microsite/ifoca/Bulletin_Inscription-SPOC_IFOCA.pdf\' target=\'_blank\'>ici</a> à l\'adresse <a href=\'mailto:formation.digitale@ifoca.com\'>formation.digitale@ifoca.com</a>.<br/>' +
+        'En cas de problème, contacter <a href=\'mailto:contact@ifoca.themoocagency.com\'>contact@ifoca.themoocagency.com</a>.<br/>' +
+        'Vous pouvez aussi vous inscrire directement en cliquant sur le bouton Payer.<br/><br/>' +
+        'Complete the pdf form available <a href=\'https://ifoca.the-mooc-agency.com/media/microsite/ifoca/Bulletin_Inscription-SPOC_IFOCA.pdf\' target=\'_blank\'>here</a> with your HR service and send it to <a href=\'mailto:formation.digitale@ifoca.com\'>formation.digitale@ifoca.com</a>.<br/>' +
+        'In case of problems, <a href=\'mailto:contact@ifoca.themoocagency.com\'>contact@ifoca.themoocagency.com</a>.<br/>' +
+        'You may also enroll directly by clicking the Checkout button.',
+  showClass: {
+    popup: 'animated fadeInDown faster'
+  },
+  hideClass: {
+    popup: 'animated fadeOutUp faster'
+  }
+});
+}
+</script>
+
+                        <button class="btn" id="manual-payment" onclick="popin()">
+                                Inscription manuelle<br/>Manual enrollment
+                        </button>
+
                     {% for processor in payment_processors %}
                         <button data-track-type="click"
                                 data-track-event="edx.bi.ecommerce.basket.payment_selected"
@@ -184,7 +221,7 @@
     <div class="row help">
         <div class="col-sm-12">
             <p><strong>{% trans "Have questions?" %}</strong></p>
-            <a href="https://{{ microsite_url }}/honor" target="_blank">{% trans "Click here to access our Terms and Conditions." %}</a>
+            <a href="https://ifoca.the-mooc-agency.com/tos" target="_blank">{% trans "Click here to access our Terms and Conditions." %}</a>
         </div>
     </div>
 </div>
