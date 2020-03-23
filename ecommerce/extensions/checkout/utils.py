@@ -52,7 +52,7 @@ def get_receipt_page_url(site_configuration, order_number=None, override_url=Non
             params = urllib.urlencode({'order_number': order_number}) if order_number else ''
     else:
         base_url = site_configuration.build_lms_url('/commerce/checkout/receipt/')
-        params = urllib.urlencode({'orderNum': order_number}) if order_number else ''
+        params = urllib.urlencode({'orderNum': order_number, 'utm_nooverride': 1}) if order_number else ''
 
     return '{base_url}{params}'.format(
         base_url=base_url,
