@@ -62,13 +62,13 @@
     padding: 10px;
     border-bottom: none;
 
-    color: #ff7c17;
+    color: #006fb4;
 
     &.selected,
     &:active,
     &:focus,
     &:hover {
-      border-bottom: 4px solid #ff7c17;
+      border-bottom: 4px solid #006fb4;
 
       color: black;
     }
