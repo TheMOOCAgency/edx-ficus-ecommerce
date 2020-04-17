@@ -23,11 +23,15 @@
 document.addEventListener("DOMContentLoaded", function() {
   //$("#messages div.alertinner.wicon").html($("#messages div.alertinner.wicon").html().replace("Coupon code","Le code promo").replace("is invalid","est invalide"));
   $("div.discount>div.benefit").first().html($("div.discount>div.benefit").first().html().replace("off",""));
- }
   $("#messages").hide();
+  $("#messages").change(function(){$(this).hide()});
 });
 </script>
-
+<style>
+#messages{
+  visiblity:hidden !important;
+}
+</style>
     <div class="basket {% if enable_client_side_checkout %}basket-client-side{% endif %}">
         <div class="container">
             {# Use a partial template so that AJAX can be used to re-render basket #}
