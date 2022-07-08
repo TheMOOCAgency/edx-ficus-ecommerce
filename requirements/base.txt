@@ -33,4 +33,4 @@ pytz==2016.10
 requests==2.9.1
 sailthru-client==2.2.3
 six==1.10.0
-suds==0.4
+suds==1.0.0
